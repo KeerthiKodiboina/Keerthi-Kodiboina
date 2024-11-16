@@ -1,0 +1,30 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function EmailDashboard() {
+  const [file, setFile] = useState(null);
+  const [prompt, setPrompt] = useState('');
+  
+  const handleFileUpload = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('prompt', prompt);
+
+    await axios.post('/api/send-emails', formData);
+  };
+
+  return (
+    <div>
+      <h1>Email Sending Dashboard</h1>
+      <input type="file" onChange={handleFileUpload} />
+      <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} />
+      <button onClick={handleSubmit}>Send Emails</button>
+    </div>
+  );
+}
+
+export default EmailDashboard;
